@@ -17,8 +17,8 @@ public class UsuarioController {
 
     @PostMapping
     @Transactional
-    public void cadastraUsuario(@RequestBody @Valid UsuarioRequest usuarioRequest){
-        Usuario usuario = usuarioRequest.toModel();
+    public void cadastraUsuario(@RequestBody @Valid NovoUsuarioRequest novoUsuarioRequest){
+        Usuario usuario = novoUsuarioRequest.toModel();
         entityManager.persist(usuario);
     }
 
