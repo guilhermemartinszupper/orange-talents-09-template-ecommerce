@@ -34,5 +34,12 @@ public class Usuario{
         this.instanteCriacao = LocalDateTime.now();
     }
 
-
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", instanteCriacao=" + instanteCriacao +
+                '}';
+    }
 }

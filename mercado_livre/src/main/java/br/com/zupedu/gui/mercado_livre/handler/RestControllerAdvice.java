@@ -10,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -38,6 +39,12 @@ public class RestControllerAdvice {
              erros.add(erroDTO);
          });
          return erros;
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ErroDTO handleEntityNotFound(EntityNotFoundException exception){
+        return new ErroDTO("Id",exception.getMessage());
     }
 
 }

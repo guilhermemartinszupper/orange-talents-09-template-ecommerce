@@ -1,10 +1,8 @@
 package br.com.zupedu.gui.mercado_livre.usuario;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 
 
@@ -12,14 +10,15 @@ import javax.validation.Valid;
 @RequestMapping("/usuarios")
 public class UsuarioController {
 
-    @PersistenceContext
-    EntityManager entityManager;
+    @Autowired
+    UsuarioRepository usuarioRepository;
 
     @PostMapping
     @Transactional
-    public void cadastraUsuario(@RequestBody @Valid NovoUsuarioRequest novoUsuarioRequest){
+    public String cadastraUsuario(@RequestBody @Valid NovoUsuarioRequest novoUsuarioRequest){
         Usuario usuario = novoUsuarioRequest.toModel();
-        entityManager.persist(usuario);
+        usuarioRepository.save(usuario);
+        return usuario.toString();
     }
 
 }

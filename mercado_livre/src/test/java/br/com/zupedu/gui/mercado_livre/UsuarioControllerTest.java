@@ -1,5 +1,6 @@
 package br.com.zupedu.gui.mercado_livre;
 import br.com.zupedu.gui.mercado_livre.usuario.NovoUsuarioRequest;
+import br.com.zupedu.gui.mercado_livre.usuario.UsuarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -32,11 +33,11 @@ public class UsuarioControllerTest {
     private ObjectMapper mapper;
 
     @PersistenceContext
-    private EntityManager entityManager;
+    EntityManager entityManager;
 
     @ParameterizedTest
     @CsvSource(value = {
-            "null,null","'' ,'' ","teste.com.br,12345"
+            "null,null","'' ,'' ","teste.teste,12345"
     },nullValues = {"null"},emptyValue = "")
     void deveRetornarBadRequestCasoTenhaDadosInvalidos(String usr, String pssw) throws Exception {
         NovoUsuarioRequest novoUsuarioRequest = new NovoUsuarioRequest(usr,pssw);
@@ -50,8 +51,9 @@ public class UsuarioControllerTest {
                 );
     }
     @Test
+    @Transactional
     void deveRetornarOk() throws Exception {
-        NovoUsuarioRequest novoUsuarioRequest = new NovoUsuarioRequest("gui@zup.com","teste123");
+        NovoUsuarioRequest novoUsuarioRequest = new NovoUsuarioRequest("teste@teste.com","teste123");
         String request = mapper.writeValueAsString(novoUsuarioRequest);
         String URI = "/usuarios";
         MockHttpServletRequestBuilder consultaRequest = post(URI).contentType(MediaType.APPLICATION_JSON).content(request);
@@ -60,8 +62,9 @@ public class UsuarioControllerTest {
                 .andExpect(
                         status().isOk()
                 );
-
+       deletarPorNome("teste@teste.com");
     }
+
     @Test
     @Transactional
     void deveRetornarBadRequestSeEmailForDuplicado() throws Exception {
@@ -79,6 +82,10 @@ public class UsuarioControllerTest {
                 .andExpect(
                         status().isBadRequest()
                 );
-        entityManager.createNativeQuery("delete from usuario where login = 'teste@teste.com'").executeUpdate();
+        deletarPorNome("teste@teste.com");
+    }
+
+    void deletarPorNome(String nome){
+        entityManager.createQuery("delete from Usuario where login = :pnome ").setParameter("pnome",nome).executeUpdate();
     }
 }
