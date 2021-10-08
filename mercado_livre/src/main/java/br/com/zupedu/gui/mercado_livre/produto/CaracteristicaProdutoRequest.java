@@ -33,4 +33,8 @@ public class CaracteristicaProdutoRequest {
     public int hashCode() {
         return Objects.hash(nome);
     }
+
+    public CaracteristicaProduto toModel() {
+        return new CaracteristicaProduto(this.getNome(),this.getDescricao());
+    }
 }

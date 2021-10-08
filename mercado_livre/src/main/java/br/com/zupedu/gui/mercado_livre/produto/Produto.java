@@ -3,6 +3,7 @@ package br.com.zupedu.gui.mercado_livre.produto;
 import br.com.zupedu.gui.mercado_livre.categoria.Categoria;
 import br.com.zupedu.gui.mercado_livre.usuario.Usuario;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -28,7 +29,7 @@ public class Produto {
     @NotBlank @Length(min = 1,max = 1000) @Column(columnDefinition = "Text",length = 1000,nullable = false)
     private String descricao;
     @NotNull @ManyToOne()
-    private Categoria categoria;
+    private Categoria categorias;
     @ManyToOne
     private Usuario usuario;
     private LocalDateTime instanteCadastro = LocalDateTime.now();
@@ -37,18 +38,20 @@ public class Produto {
     public Produto() {
     }
 
-    public Produto(String nome, BigDecimal valor, Integer quantidade, Set<CaracteristicaProdutoRequest> caracteristicas, String descricao, Categoria categoria, Usuario usuario) {
+    public Produto(String nome, BigDecimal valor, Integer quantidade, Set<CaracteristicaProduto> caracteristicas, String descricao, Categoria categorias, Usuario usuario) {
+        Assert.hasLength(nome, "Nome nao ser vazio");
+        Assert.notNull(nome, "Nome nao pode ser nulo");
+        Assert.isTrue(quantidade >= 1, "Quantidade nao pode ser menor que 1");
+        Assert.isTrue(caracteristicas.size() >= 3, "Deve ter 3 caracteristicas");
+        Assert.hasLength(descricao, "Descricao nao pode ser vazio");
+        Assert.notNull(descricao, "Descricao nao pode ser nulo");
+        Assert.notNull(usuario, "Usuario nao pode ser nulo");
         this.nome = nome;
         this.valor = valor;
         this.quantidade = quantidade;
         this.descricao = descricao;
-        this.categoria = categoria;
-        Set<CaracteristicaProduto> produtoSet = new HashSet<>();
-        caracteristicas.forEach(c -> {
-            CaracteristicaProduto caracteristica  = new CaracteristicaProduto(c.getNome(),c.getDescricao());
-            produtoSet.add(caracteristica);
-        });
-        this.caracteristicas = produtoSet;
+        this.categorias = categorias;
+        this.caracteristicas = caracteristicas;
         this.usuario = usuario;
     }
 
@@ -61,7 +64,7 @@ public class Produto {
                 ", quantidade=" + quantidade +
                 ", caracteristicas=" + caracteristicas +
                 ", descricao='" + descricao + '\'' +
-                ", categoria=" + categoria +
+                ", categoria=" + categorias +
                 ", usuario=" + usuario +
                 ", instanteCadastro=" + instanteCadastro +
                 '}';

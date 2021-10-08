@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class NovoProdutoRequest {
     @NotBlank
@@ -40,8 +41,10 @@ public class NovoProdutoRequest {
 
     public Produto toModel(CategoriaRepository categoriaRepository, Usuario usuario) {
         Optional<Categoria> categoria = categoriaRepository.findById(this.idCategoria);
+        Set<CaracteristicaProduto> caracteristicasSet = caracteristicas.stream()
+                .map(c -> c.toModel()).collect(Collectors.toSet());
         if(categoria.isPresent()){
-            return new Produto(this.nome,this.valor,this.quantidade,this.caracteristicas,this.descricao,categoria.get(),usuario);
+            return new Produto(this.nome,this.valor,this.quantidade,caracteristicasSet,this.descricao,categoria.get(),usuario);
         }
         throw new EntityNotFoundException("Categoria nao foi encontrada");
     }
