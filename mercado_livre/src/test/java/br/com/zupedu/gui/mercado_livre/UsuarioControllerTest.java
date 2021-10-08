@@ -53,6 +53,7 @@ public class UsuarioControllerTest {
     @Test
     @Transactional
     void deveRetornarOk() throws Exception {
+        deletarPorNome("teste@teste.com");
         NovoUsuarioRequest novoUsuarioRequest = new NovoUsuarioRequest("teste@teste.com","teste123");
         String request = mapper.writeValueAsString(novoUsuarioRequest);
         String URI = "/usuarios";
@@ -68,6 +69,7 @@ public class UsuarioControllerTest {
     @Test
     @Transactional
     void deveRetornarBadRequestSeEmailForDuplicado() throws Exception {
+        deletarPorNome("teste@teste.com");
         NovoUsuarioRequest novoUsuarioRequest = new NovoUsuarioRequest("teste@teste.com","teste123");
         String request = mapper.writeValueAsString(novoUsuarioRequest);
         String URI = "/usuarios";

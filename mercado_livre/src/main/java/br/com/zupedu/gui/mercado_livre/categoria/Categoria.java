@@ -12,7 +12,7 @@ public class Categoria {
     private Long id;
     @NotBlank @Column(unique = true, nullable = false)
     private String nome;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Categoria categoriaMae;
 
     @Deprecated
