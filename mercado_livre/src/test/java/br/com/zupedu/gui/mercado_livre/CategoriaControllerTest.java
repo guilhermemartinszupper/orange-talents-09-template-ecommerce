@@ -36,7 +36,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureDataJpa
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Transactional
 public class CategoriaControllerTest {
     @Autowired
     private MockMvc mockMvc;
