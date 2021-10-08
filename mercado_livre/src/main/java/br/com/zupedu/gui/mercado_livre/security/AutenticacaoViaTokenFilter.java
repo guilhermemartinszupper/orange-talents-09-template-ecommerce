@@ -42,7 +42,7 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
         }
         //Faz o spring considerar que o usuario ja esta autenticado
         UsernamePasswordAuthenticationToken authentication =
-                new UsernamePasswordAuthenticationToken(usuario,null,usuario.get().getAuthorities());
+                new UsernamePasswordAuthenticationToken(usuario.get(),null,usuario.get().getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 

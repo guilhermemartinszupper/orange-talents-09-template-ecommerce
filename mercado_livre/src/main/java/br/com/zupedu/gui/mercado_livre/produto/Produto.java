@@ -1,6 +1,7 @@
 package br.com.zupedu.gui.mercado_livre.produto;
 
 import br.com.zupedu.gui.mercado_livre.categoria.Categoria;
+import br.com.zupedu.gui.mercado_livre.usuario.Usuario;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -28,13 +29,15 @@ public class Produto {
     private String descricao;
     @NotNull @ManyToOne()
     private Categoria categoria;
+    @ManyToOne
+    private Usuario usuario;
     private LocalDateTime instanteCadastro = LocalDateTime.now();
 
     @Deprecated
     public Produto() {
     }
 
-    public Produto(String nome, BigDecimal valor, Integer quantidade, Set<CaracteristicaProdutoRequest> caracteristicas, String descricao, Categoria categoria) {
+    public Produto(String nome, BigDecimal valor, Integer quantidade, Set<CaracteristicaProdutoRequest> caracteristicas, String descricao, Categoria categoria, Usuario usuario) {
         this.nome = nome;
         this.valor = valor;
         this.quantidade = quantidade;
@@ -46,6 +49,7 @@ public class Produto {
             produtoSet.add(caracteristica);
         });
         this.caracteristicas = produtoSet;
+        this.usuario = usuario;
     }
 
     @Override
@@ -58,6 +62,7 @@ public class Produto {
                 ", caracteristicas=" + caracteristicas +
                 ", descricao='" + descricao + '\'' +
                 ", categoria=" + categoria +
+                ", usuario=" + usuario +
                 ", instanteCadastro=" + instanteCadastro +
                 '}';
     }

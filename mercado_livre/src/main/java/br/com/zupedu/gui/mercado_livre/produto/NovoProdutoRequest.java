@@ -2,6 +2,7 @@ package br.com.zupedu.gui.mercado_livre.produto;
 
 import br.com.zupedu.gui.mercado_livre.categoria.Categoria;
 import br.com.zupedu.gui.mercado_livre.categoria.CategoriaRepository;
+import br.com.zupedu.gui.mercado_livre.usuario.Usuario;
 import br.com.zupedu.gui.mercado_livre.validator.IdExist;
 import org.hibernate.validator.constraints.Length;
 
@@ -37,10 +38,10 @@ public class NovoProdutoRequest {
     }
 
 
-    public Produto toModel(CategoriaRepository categoriaRepository) {
+    public Produto toModel(CategoriaRepository categoriaRepository, Usuario usuario) {
         Optional<Categoria> categoria = categoriaRepository.findById(this.idCategoria);
         if(categoria.isPresent()){
-            return new Produto(this.nome,this.valor,this.quantidade,this.caracteristicas,this.descricao,categoria.get());
+            return new Produto(this.nome,this.valor,this.quantidade,this.caracteristicas,this.descricao,categoria.get(),usuario);
         }
         throw new EntityNotFoundException("Categoria nao foi encontrada");
     }
