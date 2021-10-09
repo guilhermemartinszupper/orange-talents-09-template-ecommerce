@@ -9,10 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Produto {
@@ -33,6 +30,8 @@ public class Produto {
     @ManyToOne
     private Usuario usuario;
     private LocalDateTime instanteCadastro = LocalDateTime.now();
+    @OneToMany()
+    private List<FotoDeProduto> fotos = new ArrayList<>();
 
     @Deprecated
     public Produto() {
@@ -54,6 +53,17 @@ public class Produto {
         this.caracteristicas = caracteristicas;
         this.usuario = usuario;
     }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void adicinaFoto(FotoDeProduto fotoDeProduto){
+        Assert.notNull(fotoDeProduto, "Foto do Produto nao pode ser nula");
+        this.fotos.add(fotoDeProduto);
+    }
+
+
 
     @Override
     public String toString() {

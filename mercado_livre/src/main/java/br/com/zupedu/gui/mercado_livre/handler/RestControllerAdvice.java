@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 
 @org.springframework.web.bind.annotation.RestControllerAdvice
@@ -45,6 +44,13 @@ public class RestControllerAdvice {
     @ExceptionHandler(EntityNotFoundException.class)
     public ErroDTO handleEntityNotFound(EntityNotFoundException exception){
         return new ErroDTO("Id",exception.getMessage());
+    }
+
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(ProdutoNaoPertenceAoUsuarioException.class)
+    public ErroDTO handleEntityNotFound(ProdutoNaoPertenceAoUsuarioException exception){
+        return new ErroDTO("autorização",exception.getMessage());
     }
 
 }
