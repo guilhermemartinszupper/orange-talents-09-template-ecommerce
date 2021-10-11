@@ -2,6 +2,7 @@ package br.com.zupedu.gui.mercado_livre.produto.opiniao;
 
 import br.com.zupedu.gui.mercado_livre.produto.Produto;
 import br.com.zupedu.gui.mercado_livre.usuario.Usuario;
+import io.jsonwebtoken.lang.Assert;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -34,9 +35,8 @@ public class OpiniaoRequest {
     }
 
     public Opiniao toModel(Produto produto,Usuario usuario) {
-        if(produto == null){
-            throw new IllegalArgumentException("Produto nao pode ser nulo");
-        }
+        Assert.notNull(produto, "Produto nao pode ser null");
+        Assert.notNull(usuario, "Usuario nao pode ser null");
         return new Opiniao(this.nota,this.titulo,this.descricao,usuario,produto);
     }
 }

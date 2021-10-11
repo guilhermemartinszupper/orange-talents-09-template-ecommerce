@@ -3,6 +3,7 @@ package br.com.zupedu.gui.mercado_livre.produto;
 import br.com.zupedu.gui.mercado_livre.categoria.Categoria;
 import br.com.zupedu.gui.mercado_livre.produto.imagem.ImagemDeProduto;
 import br.com.zupedu.gui.mercado_livre.produto.opiniao.Opiniao;
+import br.com.zupedu.gui.mercado_livre.produto.pergunta.Pergunta;
 import br.com.zupedu.gui.mercado_livre.usuario.Usuario;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.util.Assert;
@@ -37,6 +38,8 @@ public class Produto {
     private List<ImagemDeProduto> fotos = new ArrayList<>();
     @OneToMany(cascade = CascadeType.MERGE,mappedBy = "produto",fetch = FetchType.LAZY)
     private List<Opiniao> opinioes;
+    @OneToMany(cascade = CascadeType.MERGE,mappedBy = "produto",fetch = FetchType.LAZY)
+    private List<Pergunta> perguntas;
 
     @Deprecated
     public Produto() {
@@ -82,6 +85,11 @@ public class Produto {
         return nome;
     }
 
+    public void adicionaPergunta(Pergunta pergunta) {
+        Assert.notNull(pergunta, "Pergunta nao pode ser null");
+        this.perguntas.add(pergunta);
+    }
+
     @Override
     public String toString() {
         return "Produto{" +
@@ -96,6 +104,7 @@ public class Produto {
                 ", instanteCadastro=" + instanteCadastro +
                 ", fotos=" + fotos +
                 ", opinioes=" + opinioes +
+                ", perguntas=" + perguntas +
                 '}';
     }
 }

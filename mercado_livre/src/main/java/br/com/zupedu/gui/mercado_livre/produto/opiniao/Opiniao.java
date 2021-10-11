@@ -15,11 +15,11 @@ import javax.validation.constraints.NotNull;
 public class Opiniao {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull @Min(1) @Max(5)
+    @NotNull @Min(1) @Max(5) @Column(length = 5,nullable = false)
     private Integer nota;
-    @NotBlank
+    @NotBlank @Column(nullable = false)
     private String titulo;
-    @NotBlank @Length(min = 1,max = 500)
+    @NotBlank @Length(min = 1,max = 500)@Column(nullable = false,length = 500)
     private String descricao;
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     private Usuario usuario;
