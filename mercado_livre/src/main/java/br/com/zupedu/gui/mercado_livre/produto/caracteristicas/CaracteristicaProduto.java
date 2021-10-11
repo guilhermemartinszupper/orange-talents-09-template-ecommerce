@@ -1,5 +1,6 @@
-package br.com.zupedu.gui.mercado_livre.produto;
+package br.com.zupedu.gui.mercado_livre.produto.caracteristicas;
 
+import br.com.zupedu.gui.mercado_livre.produto.Produto;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -29,6 +30,14 @@ public class CaracteristicaProduto {
         this.nome = nome;
         this.descricao = descricao;
         this.produto = produto;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
     }
 
     @Override

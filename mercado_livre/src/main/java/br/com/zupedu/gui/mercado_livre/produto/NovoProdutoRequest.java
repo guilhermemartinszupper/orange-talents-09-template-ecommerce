@@ -2,18 +2,16 @@ package br.com.zupedu.gui.mercado_livre.produto;
 
 import br.com.zupedu.gui.mercado_livre.categoria.Categoria;
 import br.com.zupedu.gui.mercado_livre.categoria.CategoriaRepository;
+import br.com.zupedu.gui.mercado_livre.produto.caracteristicas.CaracteristicaProdutoRequest;
 import br.com.zupedu.gui.mercado_livre.usuario.Usuario;
 import br.com.zupedu.gui.mercado_livre.validator.IdExist;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class NovoProdutoRequest {
     @NotBlank

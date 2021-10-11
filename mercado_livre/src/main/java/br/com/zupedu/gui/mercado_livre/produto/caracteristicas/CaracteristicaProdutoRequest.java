@@ -1,4 +1,6 @@
-package br.com.zupedu.gui.mercado_livre.produto;
+package br.com.zupedu.gui.mercado_livre.produto.caracteristicas;
+import br.com.zupedu.gui.mercado_livre.produto.Produto;
+
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 

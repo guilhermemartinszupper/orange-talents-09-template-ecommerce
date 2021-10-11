@@ -1,6 +1,8 @@
 package br.com.zupedu.gui.mercado_livre.produto;
 
 import br.com.zupedu.gui.mercado_livre.categoria.Categoria;
+import br.com.zupedu.gui.mercado_livre.produto.caracteristicas.CaracteristicaProduto;
+import br.com.zupedu.gui.mercado_livre.produto.caracteristicas.CaracteristicaProdutoRequest;
 import br.com.zupedu.gui.mercado_livre.produto.imagem.ImagemDeProduto;
 import br.com.zupedu.gui.mercado_livre.produto.opiniao.Opiniao;
 import br.com.zupedu.gui.mercado_livre.produto.pergunta.Pergunta;
@@ -35,7 +37,7 @@ public class Produto {
     private Usuario usuario;
     private LocalDateTime instanteCadastro = LocalDateTime.now();
     @OneToMany(cascade = CascadeType.MERGE,mappedBy = "produto",fetch = FetchType.LAZY)
-    private List<ImagemDeProduto> fotos = new ArrayList<>();
+    private List<ImagemDeProduto> imagens = new ArrayList<>();
     @OneToMany(cascade = CascadeType.MERGE,mappedBy = "produto",fetch = FetchType.LAZY)
     private List<Opiniao> opinioes;
     @OneToMany(cascade = CascadeType.MERGE,mappedBy = "produto",fetch = FetchType.LAZY)
@@ -67,22 +69,47 @@ public class Produto {
         return usuario;
     }
 
-    public void adicinaFoto(ImagemDeProduto fotoDeProduto){
-        Assert.notNull(fotoDeProduto, "Foto do Produto nao pode ser nula");
-        this.fotos.add(fotoDeProduto);
-    }
-
-    public void adicionaOpiniao(Opiniao opiniao) {
-        Assert.notNull(opiniao, "Opiniao nao pode ser nula");
-        this.opinioes.add(opiniao);
-    }
-
     public Long getId() {
         return id;
     }
 
     public String getNome() {
         return nome;
+    }
+
+    public BigDecimal getValor() {
+        return valor;
+    }
+
+    public Set<CaracteristicaProduto> getCaracteristicas() {
+        return caracteristicas;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public List<ImagemDeProduto> getImagens() {
+        return imagens;
+    }
+
+    public List<Opiniao> getOpinioes() {
+        return opinioes;
+    }
+
+    public List<Pergunta> getPerguntas() {
+        return perguntas;
+    }
+
+    public void adicionaImangens(List<String> links){
+        Assert.notNull(links, "Links das imagens nao podem ser nulos");
+        Assert.isTrue(!links.isEmpty(), "Links das imagens nao podem ser vazios");
+        this.imagens.addAll(links.stream().map(s -> new ImagemDeProduto(s, this)).collect(Collectors.toList()));
+    }
+
+    public void adicionaOpiniao(Opiniao opiniao) {
+        Assert.notNull(opiniao, "Opiniao nao pode ser nula");
+        this.opinioes.add(opiniao);
     }
 
     public void adicionaPergunta(Pergunta pergunta) {
@@ -102,7 +129,7 @@ public class Produto {
                 ", categorias=" + categorias +
                 ", usuario=" + usuario +
                 ", instanteCadastro=" + instanteCadastro +
-                ", fotos=" + fotos +
+                ", fotos=" + imagens +
                 ", opinioes=" + opinioes +
                 ", perguntas=" + perguntas +
                 '}';
