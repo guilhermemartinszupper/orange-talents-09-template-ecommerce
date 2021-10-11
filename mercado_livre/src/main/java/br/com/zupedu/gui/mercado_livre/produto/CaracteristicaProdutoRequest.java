@@ -34,7 +34,7 @@ public class CaracteristicaProdutoRequest {
         return Objects.hash(nome);
     }
 
-    public CaracteristicaProduto toModel() {
-        return new CaracteristicaProduto(this.getNome(),this.getDescricao());
+    public CaracteristicaProduto toModel(Produto produto) {
+        return new CaracteristicaProduto(this.getNome(),this.getDescricao(),produto);
     }
 }

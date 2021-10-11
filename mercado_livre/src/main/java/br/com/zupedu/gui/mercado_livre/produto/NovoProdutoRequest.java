@@ -41,10 +41,8 @@ public class NovoProdutoRequest {
 
     public Produto toModel(CategoriaRepository categoriaRepository, Usuario usuario) {
         Optional<Categoria> categoria = categoriaRepository.findById(this.idCategoria);
-        Set<CaracteristicaProduto> caracteristicasSet = caracteristicas.stream()
-                .map(c -> c.toModel()).collect(Collectors.toSet());
         if(categoria.isPresent()){
-            return new Produto(this.nome,this.valor,this.quantidade,caracteristicasSet,this.descricao,categoria.get(),usuario);
+            return new Produto(this.nome,this.valor,this.quantidade,this.caracteristicas,this.descricao,categoria.get(),usuario);
         }
         throw new EntityNotFoundException("Categoria nao foi encontrada");
     }

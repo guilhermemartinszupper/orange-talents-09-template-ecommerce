@@ -1,6 +1,9 @@
-package br.com.zupedu.gui.mercado_livre.produto;
+package br.com.zupedu.gui.mercado_livre.produto.imagem;
 
 import br.com.zupedu.gui.mercado_livre.handler.ProdutoNaoPertenceAoUsuarioException;
+import br.com.zupedu.gui.mercado_livre.produto.Produto;
+import br.com.zupedu.gui.mercado_livre.produto.ProdutoRepository;
+import br.com.zupedu.gui.mercado_livre.produto.imagem.ImagemDeProduto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -27,10 +30,11 @@ public class ImagemProdutoController {
         if(!authentication.getName().equals(produto.get().getUsuario().getUsername())){
           throw new ProdutoNaoPertenceAoUsuarioException("Este produto nao pertence a este usuario");
         }
-        String encodedfile = new String((Base64.getEncoder().encodeToString(file.getBytes())));
+        String encodedfile = (Base64.getEncoder().encodeToString(file.getBytes()));
         String nome = file.getOriginalFilename();
         long tamanho = file.getSize();
-        FotoDeProduto foto = new FotoDeProduto(nome,tamanho,encodedfile);
+        ImagemDeProduto foto = new ImagemDeProduto(nome,tamanho,encodedfile,produto.get());
         produto.get().adicinaFoto(foto);
+        produtoRepository.save(produto.get());
     }
 }
