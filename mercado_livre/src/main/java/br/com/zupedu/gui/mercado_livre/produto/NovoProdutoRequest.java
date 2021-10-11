@@ -2,7 +2,7 @@ package br.com.zupedu.gui.mercado_livre.produto;
 
 import br.com.zupedu.gui.mercado_livre.categoria.Categoria;
 import br.com.zupedu.gui.mercado_livre.categoria.CategoriaRepository;
-import br.com.zupedu.gui.mercado_livre.produto.caracteristicas.CaracteristicaProdutoRequest;
+import br.com.zupedu.gui.mercado_livre.produto.caracteristicas.ProdutoCaracteristicaRequest;
 import br.com.zupedu.gui.mercado_livre.usuario.Usuario;
 import br.com.zupedu.gui.mercado_livre.validator.IdExist;
 import org.hibernate.validator.constraints.Length;
@@ -21,13 +21,13 @@ public class NovoProdutoRequest {
     @NotNull @Min(1)
     private Integer quantidade;
     @Size(min = 3) @NotNull
-    private Set<CaracteristicaProdutoRequest> caracteristicas;
+    private Set<ProdutoCaracteristicaRequest> caracteristicas;
     @NotBlank @Length(min = 1,max = 1000)
     private String descricao;
     @NotNull @IdExist(domainClass = Categoria.class)
     private Long idCategoria;
 
-    public NovoProdutoRequest(String nome, BigDecimal valor, Integer quantidade, Set<CaracteristicaProdutoRequest> caracteristicas, String descricao, Long idCategoria) {
+    public NovoProdutoRequest(String nome, BigDecimal valor, Integer quantidade, Set<ProdutoCaracteristicaRequest> caracteristicas, String descricao, Long idCategoria) {
         this.nome = nome;
         this.valor = valor;
         this.quantidade = quantidade;

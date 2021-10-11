@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 
 @Entity
-public class ImagemDeProduto {
+public class ProdutoImagem {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull @Column(nullable = false)
@@ -16,10 +16,10 @@ public class ImagemDeProduto {
     private Produto produto;
 
     @Deprecated
-    public ImagemDeProduto() {
+    public ProdutoImagem() {
     }
 
-    public ImagemDeProduto(String link, Produto produto) {
+    public ProdutoImagem(String link, Produto produto) {
         Assert.hasLength(link,"Link nao pode estar em branco");
         Assert.notNull(link,"Link nao pode ser null");
         Assert.notNull(produto, "Produto nao pode ser null");

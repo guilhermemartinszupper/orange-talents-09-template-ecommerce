@@ -29,7 +29,7 @@ public class CadastraPerguntaController {
 
 
     @PostMapping("/{id}")
-    public String inserirResposta(@Valid @RequestBody PerguntaRequest perguntaRequest, @PathVariable Long id, Authentication authentication){
+    public String inserirResposta(@Valid @RequestBody ProdutoPerguntaRequest perguntaRequest, @PathVariable Long id, Authentication authentication){
         Optional<Produto> produto = produtoRepository.findById(id);
         if(produto.isEmpty()){
             throw new EntityNotFoundException("Produto Não Existe");
@@ -38,7 +38,7 @@ public class CadastraPerguntaController {
         if(usuario.isEmpty()){
             throw new UsernameNotFoundException("Usuario Nao Existe");
         }
-        Pergunta pergunta = perguntaRequest.toModel(produto.get(), usuario.get());
+        ProdutoPergunta pergunta = perguntaRequest.toModel(produto.get(), usuario.get());
         produto.get().adicionaPergunta(pergunta);
         produtoRepository.save(produto.get());
         Email email = new Email(produto.get().getUsuario().getUsername(),

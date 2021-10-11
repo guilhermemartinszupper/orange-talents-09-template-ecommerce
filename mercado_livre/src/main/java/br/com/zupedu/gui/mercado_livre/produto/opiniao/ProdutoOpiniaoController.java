@@ -1,6 +1,5 @@
 package br.com.zupedu.gui.mercado_livre.produto.opiniao;
 
-import br.com.zupedu.gui.mercado_livre.handler.ProdutoNaoPertenceAoUsuarioException;
 import br.com.zupedu.gui.mercado_livre.produto.Produto;
 import br.com.zupedu.gui.mercado_livre.produto.ProdutoRepository;
 import br.com.zupedu.gui.mercado_livre.usuario.Usuario;
@@ -16,7 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/produtos/opiniao")
-public class CadastraOpiniaoController {
+public class ProdutoOpiniaoController {
 
     @Autowired
     ProdutoRepository produtoRepository;
@@ -34,7 +33,7 @@ public class CadastraOpiniaoController {
         if(usuario.isEmpty()){
             throw new UsernameNotFoundException("Usuario Nao Existe");
         }
-        Opiniao opiniao = opiniaoRequest.toModel(produto.get(), usuario.get());
+        ProdutoOpiniao opiniao = opiniaoRequest.toModel(produto.get(), usuario.get());
         produto.get().adicionaOpiniao(opiniao);
         produtoRepository.save(produto.get());
         return opiniao.toString();

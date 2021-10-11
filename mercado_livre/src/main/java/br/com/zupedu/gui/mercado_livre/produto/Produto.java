@@ -1,11 +1,13 @@
 package br.com.zupedu.gui.mercado_livre.produto;
 
 import br.com.zupedu.gui.mercado_livre.categoria.Categoria;
-import br.com.zupedu.gui.mercado_livre.produto.caracteristicas.CaracteristicaProduto;
-import br.com.zupedu.gui.mercado_livre.produto.caracteristicas.CaracteristicaProdutoRequest;
-import br.com.zupedu.gui.mercado_livre.produto.imagem.ImagemDeProduto;
-import br.com.zupedu.gui.mercado_livre.produto.opiniao.Opiniao;
-import br.com.zupedu.gui.mercado_livre.produto.pergunta.Pergunta;
+import br.com.zupedu.gui.mercado_livre.produto.caracteristicas.ProdutoCaracteristica;
+import br.com.zupedu.gui.mercado_livre.produto.caracteristicas.ProdutoCaracteristicaRequest;
+import br.com.zupedu.gui.mercado_livre.produto.detalheProduto.Opinioes;
+import br.com.zupedu.gui.mercado_livre.produto.imagem.ProdutoImagem;
+import br.com.zupedu.gui.mercado_livre.produto.opiniao.ProdutoOpiniao;
+import br.com.zupedu.gui.mercado_livre.produto.opiniao.ProdutoOpiniaoResponse;
+import br.com.zupedu.gui.mercado_livre.produto.pergunta.ProdutoPergunta;
 import br.com.zupedu.gui.mercado_livre.usuario.Usuario;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.util.Assert;
@@ -15,6 +17,7 @@ import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Entity
@@ -28,7 +31,7 @@ public class Produto {
     @NotNull @Min(1) @Column(nullable = false)
     private Integer quantidade;
     @Size(min = 3) @NotNull @OneToMany(cascade = CascadeType.PERSIST,mappedBy = "produto")
-    private Set<CaracteristicaProduto> caracteristicas;
+    private Set<ProdutoCaracteristica> caracteristicas;
     @NotBlank @Length(min = 1,max = 1000) @Column(columnDefinition = "Text",length = 1000,nullable = false)
     private String descricao;
     @NotNull @ManyToOne()
@@ -37,17 +40,17 @@ public class Produto {
     private Usuario usuario;
     private LocalDateTime instanteCadastro = LocalDateTime.now();
     @OneToMany(cascade = CascadeType.MERGE,mappedBy = "produto",fetch = FetchType.LAZY)
-    private List<ImagemDeProduto> imagens = new ArrayList<>();
+    private List<ProdutoImagem> imagens = new ArrayList<>();
     @OneToMany(cascade = CascadeType.MERGE,mappedBy = "produto",fetch = FetchType.LAZY)
-    private List<Opiniao> opinioes;
+    private List<ProdutoOpiniao> opinioes;
     @OneToMany(cascade = CascadeType.MERGE,mappedBy = "produto",fetch = FetchType.LAZY)
-    private List<Pergunta> perguntas;
+    private List<ProdutoPergunta> perguntas;
 
     @Deprecated
     public Produto() {
     }
 
-    public Produto(String nome, BigDecimal valor, Integer quantidade, Set<CaracteristicaProdutoRequest> caracteristicas, String descricao, Categoria categorias, Usuario usuario) {
+    public Produto(String nome, BigDecimal valor, Integer quantidade, Set<ProdutoCaracteristicaRequest> caracteristicas, String descricao, Categoria categorias, Usuario usuario) {
         Assert.hasLength(nome, "Nome nao ser vazio");
         Assert.notNull(nome, "Nome nao pode ser nulo");
         Assert.isTrue(quantidade >= 1, "Quantidade nao pode ser menor que 1");
@@ -81,38 +84,38 @@ public class Produto {
         return valor;
     }
 
-    public Set<CaracteristicaProduto> getCaracteristicas() {
-        return caracteristicas;
-    }
-
     public String getDescricao() {
         return descricao;
     }
 
-    public List<ImagemDeProduto> getImagens() {
-        return imagens;
+    public Opinioes getOpinioes() {
+        return new Opinioes(this.opinioes);
     }
 
-    public List<Opiniao> getOpinioes() {
-        return opinioes;
+
+    public <T> Set<T> mapeiaCaracteristicas(Function<ProdutoCaracteristica,T> funcaoMapeadora){
+        return this.caracteristicas.stream().map(funcaoMapeadora).collect(Collectors.toSet());
     }
 
-    public List<Pergunta> getPerguntas() {
-        return perguntas;
+    public <T> List<T> mapeiaLinksImagens(Function<ProdutoImagem, T> funcaoMapeadora) {
+        return this.imagens.stream().map(funcaoMapeadora).collect(Collectors.toList());
     }
 
-    public void adicionaImangens(List<String> links){
+    public <T> List<T> mapeiaPerguntas(Function<ProdutoPergunta, T> funcaoMapeadora){
+        return this.perguntas.stream().map(funcaoMapeadora).collect(Collectors.toList());
+    }
+
+    public void adicionaImagens(List<String> links){
         Assert.notNull(links, "Links das imagens nao podem ser nulos");
         Assert.isTrue(!links.isEmpty(), "Links das imagens nao podem ser vazios");
-        this.imagens.addAll(links.stream().map(s -> new ImagemDeProduto(s, this)).collect(Collectors.toList()));
+        this.imagens.addAll(links.stream().map(s -> new ProdutoImagem(s, this)).collect(Collectors.toList()));
     }
 
-    public void adicionaOpiniao(Opiniao opiniao) {
+    public void adicionaOpiniao(ProdutoOpiniao opiniao) {
         Assert.notNull(opiniao, "Opiniao nao pode ser nula");
         this.opinioes.add(opiniao);
     }
-
-    public void adicionaPergunta(Pergunta pergunta) {
+    public void adicionaPergunta(ProdutoPergunta pergunta) {
         Assert.notNull(pergunta, "Pergunta nao pode ser null");
         this.perguntas.add(pergunta);
     }

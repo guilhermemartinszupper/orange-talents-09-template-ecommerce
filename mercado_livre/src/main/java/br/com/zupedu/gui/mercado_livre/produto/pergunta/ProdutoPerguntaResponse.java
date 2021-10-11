@@ -1,12 +1,9 @@
 package br.com.zupedu.gui.mercado_livre.produto.pergunta;
 
-import javax.persistence.Column;
-import javax.validation.constraints.NotNull;
-
-public class PerguntaProdutoResponse {
+public class ProdutoPerguntaResponse {
     private String titulo;
 
-    public PerguntaProdutoResponse(Pergunta pergunta) {
+    public ProdutoPerguntaResponse(ProdutoPergunta pergunta) {
         this.titulo = pergunta.getTitulo();
     }
 

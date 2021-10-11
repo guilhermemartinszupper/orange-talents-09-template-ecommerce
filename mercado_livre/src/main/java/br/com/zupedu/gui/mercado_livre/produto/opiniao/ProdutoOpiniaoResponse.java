@@ -1,12 +1,12 @@
 package br.com.zupedu.gui.mercado_livre.produto.opiniao;
 
 
-public class OpiniaoProdutoResponse {
+public class ProdutoOpiniaoResponse {
     private Integer nota;
     private String titulo;
     private String descricao;
 
-    public OpiniaoProdutoResponse(Opiniao opiniao) {
+    public ProdutoOpiniaoResponse(ProdutoOpiniao opiniao) {
         this.nota = opiniao.getNota();
         this.titulo = opiniao.getTitulo();
         this.descricao = opiniao.getDescricao();

@@ -4,7 +4,6 @@ import br.com.zupedu.gui.mercado_livre.produto.Produto;
 import br.com.zupedu.gui.mercado_livre.usuario.Usuario;
 import io.jsonwebtoken.lang.Assert;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -34,9 +33,9 @@ public class OpiniaoRequest {
                 '}';
     }
 
-    public Opiniao toModel(Produto produto,Usuario usuario) {
+    public ProdutoOpiniao toModel(Produto produto, Usuario usuario) {
         Assert.notNull(produto, "Produto nao pode ser null");
         Assert.notNull(usuario, "Usuario nao pode ser null");
-        return new Opiniao(this.nota,this.titulo,this.descricao,usuario,produto);
+        return new ProdutoOpiniao(this.nota,this.titulo,this.descricao,usuario,produto);
     }
 }

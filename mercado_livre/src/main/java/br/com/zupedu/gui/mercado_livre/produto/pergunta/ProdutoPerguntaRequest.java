@@ -6,15 +6,15 @@ import io.jsonwebtoken.lang.Assert;
 
 import javax.validation.constraints.NotBlank;
 
-public class PerguntaRequest {
+public class ProdutoPerguntaRequest {
     @NotBlank
     private String titulo;
 
     @Deprecated
-    public PerguntaRequest() {
+    public ProdutoPerguntaRequest() {
     }
 
-    public PerguntaRequest(String titulo) {
+    public ProdutoPerguntaRequest(String titulo) {
         this.titulo = titulo;
     }
 
@@ -22,9 +22,9 @@ public class PerguntaRequest {
         return titulo;
     }
 
-    public Pergunta toModel(Produto produto, Usuario usuario) {
+    public ProdutoPergunta toModel(Produto produto, Usuario usuario) {
         Assert.notNull(produto, "Produto nao pode ser null");
         Assert.notNull(usuario, "Usuario nao pode ser null");
-        return new Pergunta(this.titulo,produto,usuario);
+        return new ProdutoPergunta(this.titulo,produto,usuario);
     }
 }

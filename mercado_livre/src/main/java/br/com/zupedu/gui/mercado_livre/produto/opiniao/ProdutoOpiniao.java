@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Opiniao {
+public class ProdutoOpiniao {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull @Min(1) @Max(5) @Column(length = 5,nullable = false)
@@ -27,10 +27,10 @@ public class Opiniao {
     private Produto produto;
 
     @Deprecated
-    public Opiniao() {
+    public ProdutoOpiniao() {
     }
 
-    public Opiniao(Integer nota, String titulo, String descricao, Usuario usuario, Produto produto) {
+    public ProdutoOpiniao(Integer nota, String titulo, String descricao, Usuario usuario, Produto produto) {
         Assert.isTrue(nota >= 1 && nota <= 5, "Nota deve ser entre 1 e 5");
         Assert.hasLength(titulo, "Titulo nao pode ser vazio");
         Assert.notNull(titulo, "Titulo é obrigatorio");

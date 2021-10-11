@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 @Entity
-public class Pergunta {
+public class ProdutoPergunta {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank @Column(nullable = false)
@@ -22,10 +22,10 @@ public class Pergunta {
     private Usuario usuario;
 
     @Deprecated
-    public Pergunta() {
+    public ProdutoPergunta() {
     }
 
-    public Pergunta(String titulo, Produto produto, Usuario usuario) {
+    public ProdutoPergunta(String titulo, Produto produto, Usuario usuario) {
         Assert.hasLength(titulo, "Titulo nao pode ser vazio");
         Assert.notNull(titulo, "Titulo é obrigatorio");
         Assert.notNull(produto, "Produto é Obrigatorio");

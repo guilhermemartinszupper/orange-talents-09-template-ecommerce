@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/produtos/images")
-public class ImagemProdutoController {
+public class ProdutoImagemController {
 
     @Autowired
     ProdutoRepository produtoRepository;
@@ -31,7 +31,7 @@ public class ImagemProdutoController {
           throw new ProdutoNaoPertenceAoUsuarioException("Este produto nao pertence a este usuario");
         }
         List<String> links = uploaderFake.envia(novasImagensRequest.getImagens());
-        produto.get().adicionaImangens(links);
+        produto.get().adicionaImagens(links);
         produtoRepository.save(produto.get());
     }
 }

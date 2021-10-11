@@ -4,13 +4,13 @@ import br.com.zupedu.gui.mercado_livre.produto.Produto;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
-public class CaracteristicaProdutoRequest {
+public class ProdutoCaracteristicaRequest {
     @NotBlank
     private String nome;
     @NotBlank
     private String descricao;
 
-    public CaracteristicaProdutoRequest(String nome, String descricao) {
+    public ProdutoCaracteristicaRequest(String nome, String descricao) {
         this.nome = nome;
         this.descricao = descricao;
     }
@@ -27,7 +27,7 @@ public class CaracteristicaProdutoRequest {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CaracteristicaProdutoRequest that = (CaracteristicaProdutoRequest) o;
+        ProdutoCaracteristicaRequest that = (ProdutoCaracteristicaRequest) o;
         return nome.equals(that.nome);
     }
 
@@ -36,7 +36,7 @@ public class CaracteristicaProdutoRequest {
         return Objects.hash(nome);
     }
 
-    public CaracteristicaProduto toModel(Produto produto) {
-        return new CaracteristicaProduto(this.getNome(),this.getDescricao(),produto);
+    public ProdutoCaracteristica toModel(Produto produto) {
+        return new ProdutoCaracteristica(this.getNome(),this.getDescricao(),produto);
     }
 }
