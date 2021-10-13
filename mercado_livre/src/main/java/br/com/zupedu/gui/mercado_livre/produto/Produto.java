@@ -1,12 +1,12 @@
 package br.com.zupedu.gui.mercado_livre.produto;
 
 import br.com.zupedu.gui.mercado_livre.categoria.Categoria;
+import br.com.zupedu.gui.mercado_livre.handler.QuantidadeInsuficienteNoEstoqueException;
 import br.com.zupedu.gui.mercado_livre.produto.caracteristicas.ProdutoCaracteristica;
 import br.com.zupedu.gui.mercado_livre.produto.caracteristicas.ProdutoCaracteristicaRequest;
 import br.com.zupedu.gui.mercado_livre.produto.detalheProduto.Opinioes;
 import br.com.zupedu.gui.mercado_livre.produto.imagem.ProdutoImagem;
 import br.com.zupedu.gui.mercado_livre.produto.opiniao.ProdutoOpiniao;
-import br.com.zupedu.gui.mercado_livre.produto.opiniao.ProdutoOpiniaoResponse;
 import br.com.zupedu.gui.mercado_livre.produto.pergunta.ProdutoPergunta;
 import br.com.zupedu.gui.mercado_livre.usuario.Usuario;
 import org.hibernate.validator.constraints.Length;
@@ -16,7 +16,9 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -28,7 +30,7 @@ public class Produto {
     private String nome;
     @NotNull @DecimalMin("0.10") @Column(nullable = false)
     private BigDecimal valor;
-    @NotNull @Min(1) @Column(nullable = false)
+    @NotNull @PositiveOrZero @Column(nullable = false)
     private Integer quantidade;
     @Size(min = 3) @NotNull @OneToMany(cascade = CascadeType.PERSIST,mappedBy = "produto")
     private Set<ProdutoCaracteristica> caracteristicas;
@@ -92,6 +94,9 @@ public class Produto {
         return new Opinioes(this.opinioes);
     }
 
+    public Integer getQuantidade() {
+        return quantidade;
+    }
 
     public <T> Set<T> mapeiaCaracteristicas(Function<ProdutoCaracteristica,T> funcaoMapeadora){
         return this.caracteristicas.stream().map(funcaoMapeadora).collect(Collectors.toSet());
@@ -136,5 +141,13 @@ public class Produto {
                 ", opinioes=" + opinioes +
                 ", perguntas=" + perguntas +
                 '}';
+    }
+
+    public void retirarEstoque(Integer quantidade) {
+        Assert.isTrue(quantidade > 0, "quantidade deve ser positiva");
+        if(quantidade > this.quantidade){
+            throw new QuantidadeInsuficienteNoEstoqueException("Quantidade Indisponivel no Estoque");
+        }
+        this.quantidade -= quantidade;
     }
 }

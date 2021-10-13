@@ -1,7 +1,8 @@
 package br.com.zupedu.gui.mercado_livre.produto.pergunta;
 
 import br.com.zupedu.gui.mercado_livre.email.Email;
-import br.com.zupedu.gui.mercado_livre.email.GerenciadorDeEmailTeste;
+import br.com.zupedu.gui.mercado_livre.email.EmailSender;
+import br.com.zupedu.gui.mercado_livre.email.FakeMailer;
 import br.com.zupedu.gui.mercado_livre.produto.Produto;
 import br.com.zupedu.gui.mercado_livre.produto.ProdutoRepository;
 import br.com.zupedu.gui.mercado_livre.usuario.Usuario;
@@ -17,7 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/produtos/perguntas")
-public class CadastraPerguntaController {
+public class NovaPerguntaController {
     @Autowired
     ProdutoRepository produtoRepository;
 
@@ -25,7 +26,7 @@ public class CadastraPerguntaController {
     UsuarioRepository usuarioRepository;
 
     @Autowired
-    GerenciadorDeEmailTeste gerenciadorDeEmail;
+    EmailSender emailSender;
 
 
     @PostMapping("/{id}")
@@ -41,10 +42,7 @@ public class CadastraPerguntaController {
         ProdutoPergunta pergunta = perguntaRequest.toModel(produto.get(), usuario.get());
         produto.get().adicionaPergunta(pergunta);
         produtoRepository.save(produto.get());
-        Email email = new Email(produto.get().getUsuario().getUsername(),
-                "Nova Pergunta no Produto: " + produto.get().getNome(),
-                "O usuario " + pergunta.getUsuario().getUsername() + " Fez a seguinte pergunta: " + pergunta.getTitulo());
-        gerenciadorDeEmail.enviarEmail(email);
+        emailSender.novaPergunta(pergunta);
         return pergunta.toString();
     }
 }

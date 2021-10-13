@@ -12,6 +12,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -43,11 +46,11 @@ public class UsuarioControllerTest {
         NovoUsuarioRequest novoUsuarioRequest = new NovoUsuarioRequest(usr,pssw);
         String request = mapper.writeValueAsString(novoUsuarioRequest);
         String URI = "/usuarios";
-        MockHttpServletRequestBuilder consultaRequest = post(URI).contentType(MediaType.APPLICATION_JSON).content(request);
+        MockHttpServletRequestBuilder consultaRequest = MockMvcRequestBuilders.post(URI).contentType(MediaType.APPLICATION_JSON).content(request);
         mockMvc.perform(consultaRequest)
-                .andDo(print())
+                .andDo(MockMvcResultHandlers.print())
                 .andExpect(
-                     status().isBadRequest()
+                     MockMvcResultMatchers.status().isBadRequest()
                 );
     }
     @Test
@@ -57,11 +60,11 @@ public class UsuarioControllerTest {
         NovoUsuarioRequest novoUsuarioRequest = new NovoUsuarioRequest("teste@teste.com","teste123");
         String request = mapper.writeValueAsString(novoUsuarioRequest);
         String URI = "/usuarios";
-        MockHttpServletRequestBuilder consultaRequest = post(URI).contentType(MediaType.APPLICATION_JSON).content(request);
+        MockHttpServletRequestBuilder consultaRequest = MockMvcRequestBuilders.post(URI).contentType(MediaType.APPLICATION_JSON).content(request);
         mockMvc.perform(consultaRequest)
-                .andDo(print())
+                .andDo(MockMvcResultHandlers.print())
                 .andExpect(
-                        status().isOk()
+                        MockMvcResultMatchers.status().isOk()
                 );
        deletarPorNome("teste@teste.com");
     }
@@ -73,16 +76,16 @@ public class UsuarioControllerTest {
         NovoUsuarioRequest novoUsuarioRequest = new NovoUsuarioRequest("teste@teste.com","teste123");
         String request = mapper.writeValueAsString(novoUsuarioRequest);
         String URI = "/usuarios";
-        MockHttpServletRequestBuilder consultaRequest = post(URI).contentType(MediaType.APPLICATION_JSON).content(request);
+        MockHttpServletRequestBuilder consultaRequest = MockMvcRequestBuilders.post(URI).contentType(MediaType.APPLICATION_JSON).content(request);
         mockMvc.perform(consultaRequest)
-                .andDo(print())
+                .andDo(MockMvcResultHandlers.print())
                 .andExpect(
-                        status().isOk()
+                        MockMvcResultMatchers.status().isOk()
                 );
         mockMvc.perform(consultaRequest)
-                .andDo(print())
+                .andDo(MockMvcResultHandlers.print())
                 .andExpect(
-                        status().isBadRequest()
+                        MockMvcResultMatchers.status().isBadRequest()
                 );
         deletarPorNome("teste@teste.com");
     }

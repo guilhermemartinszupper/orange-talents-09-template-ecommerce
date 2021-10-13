@@ -52,5 +52,10 @@ public class RestControllerAdvice {
     public ErroDTO handleEntityNotFound(ProdutoNaoPertenceAoUsuarioException exception){
         return new ErroDTO("autorização",exception.getMessage());
     }
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(QuantidadeInsuficienteNoEstoqueException.class)
+    public ErroDTO handleQuantidadeInsuficienteNoEstoque(QuantidadeInsuficienteNoEstoqueException exception){
+        return new ErroDTO("Quantidade",exception.getMessage());
+    }
 
 }

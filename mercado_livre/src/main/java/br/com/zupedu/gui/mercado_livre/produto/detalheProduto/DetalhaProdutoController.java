@@ -1,6 +1,4 @@
 package br.com.zupedu.gui.mercado_livre.produto.detalheProduto;
-
-
 import br.com.zupedu.gui.mercado_livre.produto.Produto;
 import br.com.zupedu.gui.mercado_livre.produto.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;

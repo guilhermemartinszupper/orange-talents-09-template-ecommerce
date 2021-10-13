@@ -2,13 +2,10 @@ package br.com.zupedu.gui.mercado_livre.produto.detalheProduto;
 import br.com.zupedu.gui.mercado_livre.produto.Produto;
 import br.com.zupedu.gui.mercado_livre.produto.caracteristicas.DetalheProdutoCaracteristica;
 import br.com.zupedu.gui.mercado_livre.produto.imagem.ProdutoImagem;
-import br.com.zupedu.gui.mercado_livre.produto.opiniao.ProdutoOpiniao;
-import br.com.zupedu.gui.mercado_livre.produto.opiniao.ProdutoOpiniaoResponse;
 import br.com.zupedu.gui.mercado_livre.produto.pergunta.ProdutoPerguntaResponse;
 import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;

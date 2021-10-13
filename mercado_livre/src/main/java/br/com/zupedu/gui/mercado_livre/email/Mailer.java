@@ -1,5 +1,5 @@
 package br.com.zupedu.gui.mercado_livre.email;
 
-public interface GerenciadorDeEmail {
+public interface Mailer {
     public void enviarEmail(Email email);
 }

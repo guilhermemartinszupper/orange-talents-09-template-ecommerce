@@ -1,25 +1,28 @@
 package br.com.zupedu.gui.mercado_livre.email;
 
 public  class Email {
-    private String destinatario;
-    private String tituloEmail;
-    private String corpoEmail;
+    private String body;
+    private String subject;
+    private String nameFrom;
+    private String from;
+    private String to;
 
-    public Email(String destinatario, String tituloEmail, String corpoEmail) {
-        this.destinatario = destinatario;
-        this.tituloEmail = tituloEmail;
-        this.corpoEmail = corpoEmail;
+    public Email(String body, String subject, String nameFrom, String from, String to) {
+        this.body = body;
+        this.subject = subject;
+        this.nameFrom = nameFrom;
+        this.from = from;
+        this.to = to;
     }
 
-    public String getDestinatario() {
-        return destinatario;
-    }
-
-    public String getTituloEmail() {
-        return tituloEmail;
-    }
-
-    public String getCorpoEmail() {
-        return corpoEmail;
+    @Override
+    public String toString() {
+        return "Email{" +
+                "body='" + body + '\'' +
+                ", subject='" + subject + '\'' +
+                ", nameFrom='" + nameFrom + '\'' +
+                ", from='" + from + '\'' +
+                ", to='" + to + '\'' +
+                '}';
     }
 }
