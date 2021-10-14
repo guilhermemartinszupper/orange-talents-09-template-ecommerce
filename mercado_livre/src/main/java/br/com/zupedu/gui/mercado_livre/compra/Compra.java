@@ -15,7 +15,7 @@ public class Compra {
     private Long id;
     @Enumerated(EnumType.STRING)
     private StatusCompra status;
-    @NotNull
+    @NotNull @Enumerated(EnumType.STRING)
     private GATEWAY_PAGAMENTO gatewayPagamento;
     @ManyToOne
     private Produto produto;
@@ -41,6 +41,7 @@ public class Compra {
         this.quantidade = quantidade;
         this.comprador = comprador;
         this.status = StatusCompra.INICIADA;
+
         this.preco = produto.getValor();
     }
 
@@ -68,16 +69,7 @@ public class Compra {
         return comprador;
     }
 
-    @Override
-    public String toString() {
-        return "Compra{" +
-                "id=" + id +
-                ", status=" + status +
-                ", gatewayPagamento=" + gatewayPagamento +
-                ", produto=" + produto +
-                ", quantidade=" + quantidade +
-                ", preco=" + preco +
-                ", comprador=" + comprador.getUsername() +
-                '}';
+    public void concluir(StatusCompra statusCompra){
+        this.status = statusCompra;
     }
 }

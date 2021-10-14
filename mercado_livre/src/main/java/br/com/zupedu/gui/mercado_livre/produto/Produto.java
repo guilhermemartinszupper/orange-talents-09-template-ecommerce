@@ -143,11 +143,12 @@ public class Produto {
                 '}';
     }
 
-    public void retirarEstoque(Integer quantidade) {
+    public boolean retirarEstoque(Integer quantidade) {
         Assert.isTrue(quantidade > 0, "quantidade deve ser positiva");
-        if(quantidade > this.quantidade){
-            throw new QuantidadeInsuficienteNoEstoqueException("Quantidade Indisponivel no Estoque");
+        if(this.quantidade < quantidade){
+            return false;
         }
         this.quantidade -= quantidade;
+        return true;
     }
 }

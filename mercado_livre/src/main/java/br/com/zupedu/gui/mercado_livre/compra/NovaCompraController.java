@@ -1,6 +1,7 @@
 package br.com.zupedu.gui.mercado_livre.compra;
 
 import br.com.zupedu.gui.mercado_livre.email.EmailSender;
+import br.com.zupedu.gui.mercado_livre.handler.QuantidadeInsuficienteNoEstoqueException;
 import br.com.zupedu.gui.mercado_livre.produto.Produto;
 import br.com.zupedu.gui.mercado_livre.produto.ProdutoRepository;
 import br.com.zupedu.gui.mercado_livre.usuario.Usuario;
@@ -9,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -22,7 +20,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/compras")
-public class CompraController {
+public class NovaCompraController {
 
     @Autowired
     ProdutoRepository produtoRepository;
@@ -36,6 +34,8 @@ public class CompraController {
     @Autowired
     EmailSender emailSender;
 
+
+
     @PostMapping
     @ResponseStatus(HttpStatus.FOUND)
     public RedirectView finalizarCompra(@RequestBody @Valid CompraRequest compraRequest, Authentication authentication, RedirectAttributes attributes){
@@ -47,11 +47,13 @@ public class CompraController {
         if(produto.isEmpty()){
             throw new EntityNotFoundException("Produto nao encontrado");
         }
-        Compra compra = compraRequest.toModel(usuario.get(), produto.get());
-        produto.get().retirarEstoque(compra.getQuantidade());
-        emailSender.novaCompra(compra);
-        produtoRepository.save(produto.get());
-        compraRepository.save(compra);
-        return UrlPaymentGenerator.generatePaymentURL(compra, attributes);
+        if(produto.get().retirarEstoque(compraRequest.getQuantidade())){
+            Compra compra = compraRequest.toModel(usuario.get(), produto.get());
+            emailSender.novaCompra(compra);
+            compraRepository.save(compra);
+            return UrlPaymentGenerator.generatePaymentURL(compra, attributes);
+        }else{
+            throw new QuantidadeInsuficienteNoEstoqueException("Quantidade no estoque insuficiente.");
+        }
     }
 }
