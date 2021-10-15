@@ -6,7 +6,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/extern/notaFiscal")
-public class notaFiscalController {
+public class NotaFiscalController {
 
     @PostMapping("{idCompra}/{idUsuario}")
     String gerarNotaFiscal(@PathVariable Long idCompra,@PathVariable Long idUsuario){
