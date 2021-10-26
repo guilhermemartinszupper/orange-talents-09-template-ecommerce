@@ -79,6 +79,7 @@ public class Compra {
 
     public void adicionarTransacao(Transacao transacao){
         Assert.notNull(transacao, "Transacao nao pode ser null");
+        Assert.isTrue(!this.transacoes.contains(transacao), "Nao pode existir uma transação igual");
         boolean jaConcluidaComSucesso = this.transacoes.stream().anyMatch(t ->
         t.getStatusTransacao().equals(StatusTransacao.SUCESSO)
         );

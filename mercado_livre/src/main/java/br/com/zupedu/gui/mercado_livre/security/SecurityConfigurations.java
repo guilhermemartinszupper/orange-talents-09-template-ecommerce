@@ -46,10 +46,17 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST,"/login").permitAll()
                 .antMatchers(HttpMethod.POST,"/compras/retorno").permitAll()
                 .antMatchers(HttpMethod.POST,"/extern/**").permitAll()
+                .antMatchers("/actuator").permitAll()
+                .antMatchers("/actuator/**").permitAll()
                 .anyRequest().authenticated()
                 .and().cors()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().addFilterBefore(new AutenticacaoViaTokenFilter(serviceToken, usuarioRepository), UsernamePasswordAuthenticationFilter.class);
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        super.configure(web);
     }
 }

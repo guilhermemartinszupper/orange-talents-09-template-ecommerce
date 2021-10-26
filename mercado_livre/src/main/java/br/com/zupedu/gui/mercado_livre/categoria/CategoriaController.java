@@ -1,5 +1,6 @@
 package br.com.zupedu.gui.mercado_livre.categoria;
 
+import br.com.zupedu.gui.mercado_livre.logger.Exemplo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,8 @@ public class CategoriaController {
     @PostMapping
     public String cadastraCategoria(@Valid @RequestBody NovaCategoriaRequest categoriaResponse){
         Categoria categoria = categoriaResponse.toModel(categoriaRepository);
+        Exemplo exemplo = new Exemplo();
+        exemplo.log();
         categoriaRepository.save(categoria);
         return categoria.toString();
     }

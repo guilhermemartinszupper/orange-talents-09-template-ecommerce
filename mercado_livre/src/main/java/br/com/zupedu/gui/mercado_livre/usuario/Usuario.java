@@ -2,6 +2,7 @@ package br.com.zupedu.gui.mercado_livre.usuario;
 
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
@@ -35,6 +36,7 @@ public class Usuario implements UserDetails {
         Assert.isTrue(StringUtils.hasLength(login),"email não pode ser em branco");
         Assert.notNull(senha,"senha nao pode ser nulo");
         this.login = login;
+
         this.senha = senha.hash();
         this.instanteCriacao = LocalDateTime.now();
     }
